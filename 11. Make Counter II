@@ -1,0 +1,24 @@
+/**
+ * @param {number} initialValue
+ * @return {{get: Function, increment: Function, decrement: Function, reset: Function }}
+ */
+export default function makeCounter(initialValue = 0) {
+  let counter = initialValue
+  return {
+    get: () => {
+      return counter
+    },
+    increment: () => {
+      counter++;
+      return counter
+    },
+    reset: () => {
+      counter = initialValue;
+      return counter
+    },
+    decrement: () => {
+      counter--;
+      return counter
+    }
+  }
+}
