@@ -1,0 +1,28 @@
+/**
+ * @param {Record<string, Array<string>} graph The adjacency list representing the graph.
+ * @param {string} source The source node to start traversal from. It has to exist as a node in the graph.
+ * @return {Array<string>} A DFS-traversed order of nodes.
+ */
+
+export default function depthFirstSearch(graph, source) {
+    if(Object.keys(graph).length === 0) {
+      return [];
+    }
+    const toBeVisited = [];
+    toBeVisited.push(source); 
+    const visited = new Set(); 
+    while(toBeVisited.length > 0) {
+      const node = toBeVisited.pop();
+      visited.add(node);
+      const neighbours = graph[node];
+      // push node into array in reverse order.
+      for(let i = neighbours.length - 1; i >= 0; i--) {
+        const neighbour = neighbours[i];
+        if(!visited.has(neighbour)) {
+          toBeVisited.push(neighbour);
+        }
+      }
+     }
+
+    return Array.from(visited);
+}
