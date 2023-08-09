@@ -1,0 +1,24 @@
+/**
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is empty, else `false`.
+ */
+export default function isEmpty(value) {
+  if(value == null) {
+    return true;
+  }
+  if(typeof value === 'string' || Array.isArray(value) || Buffer.isBuffer(value)) {
+    return value.length === 0;
+  }
+   
+    if(value instanceof Map || value instanceof Set) {
+      return value.size === 0;
+    }
+    // plain object
+    const proptoType = Object.getPrototypeOf(value);
+
+    if(proptoType === null || proptoType === Object.prototype) {
+      return Object.keys(value).length === 0;
+    }
+   
+  return true;
+}
