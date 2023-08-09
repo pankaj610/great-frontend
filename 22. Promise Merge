@@ -1,0 +1,25 @@
+/**
+ * @param {Promise} p1
+ * @param {Promise} p2
+ * @return {Promise<any>}
+ */
+export default function promiseMerge(p1, p2) {
+  return new Promise((resolve, reject)=> {
+    Promise.all([p1, p2]).then((valArr) => {
+        let a = valArr[0], b = valArr[1];
+        let numArrTypes = ['number', 'string'];
+        if(numArrTypes.includes(typeof a) && numArrTypes.includes(typeof b)) {
+          resolve(a + b);
+        }
+        if(Array.isArray(a) && Array.isArray(b)) {
+          resolve(a.concat(b));
+        }
+        if(Object.prototype == Object.getPrototypeOf(a) && Object.prototype == Object.getPrototypeOf(b)) {
+          resolve({...a, ...b});
+        }
+        reject('Unsupported data types');
+    }).catch((err)=> {
+      reject(err);
+    })
+  })
+}
