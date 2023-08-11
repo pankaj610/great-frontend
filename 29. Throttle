@@ -1,0 +1,17 @@
+/**
+ * @callback func
+ * @param {number} wait
+ * @return {Function}
+ */
+export default function throttle(func, wait) {
+  let timer;
+  let called = false;
+  return function (...args) {
+    if(called) return;
+    called = true;
+    func.apply(this, args);
+    setTimeout(()=> {
+      called = false;
+    }, wait);
+  }
+}
