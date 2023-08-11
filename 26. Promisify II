@@ -1,0 +1,23 @@
+/**
+ * @callback func
+ * @returns Function
+ */
+const customSymbol = Symbol.for('util.promisify.custom');
+
+export default function promisify(func) {
+  if(func[customSymbol]) {
+    return func[customSymbol]
+  }
+  func[customSymbol] =  function (...args) { 
+      return new Promise((resolve, reject)=> {
+        func.call(this, ...args, (err, value)=> {
+          if(err) {
+            reject(err);
+          } else {
+            resolve(value);
+          }
+        })
+    })
+  }
+  return func[customSymbol];
+}
