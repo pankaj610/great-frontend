@@ -1,0 +1,43 @@
+import { useState } from 'react';
+
+export default function Tabs() {
+  const [tab, setTab] = useState('html');
+
+  const getIsActive = (t)=> {
+    return t == tab ? 'active': "";
+  }
+
+  return (
+    <div>
+      <div>
+        <button class={getIsActive('html')} onClick={()=> setTab('html')}>HTML</button>
+        <button class={getIsActive('css')} onClick={()=> setTab('css')}>CSS</button>
+        <button class={getIsActive('js')} onClick={()=> setTab('js')}>JavaScript</button>
+      </div>
+      <div>
+        {tab === 'html' && <p>
+          The HyperText Markup Language or HTML is the
+          standard markup language for documents designed to
+          be displayed in a web browser.
+        </p>}
+        {tab === 'css' && <p>
+          Cascading Style Sheets is a style sheet language
+          used for describing the presentation of a document
+          written in a markup language such as HTML or XML.
+        </p>}
+        {tab === 'js' && <p>
+          JavaScript, often abbreviated as JS, is a
+          programming language that is one of the core
+          technologies of the World Wide Web, alongside HTML
+          and CSS.
+        </p>}
+      </div>
+    </div>
+  );
+}
+// body {
+//   font-family: sans-serif;
+// }
+// .active {
+//   color: blue;
+// }
