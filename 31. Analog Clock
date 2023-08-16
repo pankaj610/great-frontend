@@ -1,0 +1,113 @@
+import { useState, useEffect, useRef } from 'react';
+
+const Hand = ({id, angle})=> {
+   return <div id={id} style={{rotate: `${angle}deg`}}>
+      <div />
+    </div>
+}
+
+const FULL_ANGLE = 360;
+
+export default function Clock() {
+  const [time, setTime] = useState(Date.now());
+  const timeRef = useRef();
+
+  useEffect(()=> {
+    timeRef.current = setInterval(()=> {
+      setTime(Date.now());
+    }, 1000);
+    return ()=> {
+      clearInterval(timeRef.current);
+    }
+  }, []);
+
+  const now = new Date(time);
+  const hours = now.getHours() % 12;
+  const minutes = now.getMinutes()
+  const seconds = now.getSeconds()
+   console.log({hours, minutes, seconds});
+
+  const secondsAngle = (360/60) * seconds;
+  const minutesAngle = (360/60) * minutes + (secondsAngle/60);
+  const hoursAngle = (360/12) * hours + (minutesAngle/60) ;
+console.log({secondsAngle, minutesAngle, hoursAngle});
+  return (<div id="outer-ring">
+              <Hand id="seconds" angle={secondsAngle}/>
+               <Hand id="minute" angle={minutesAngle} />
+               <Hand id="hours" angle={hoursAngle} />
+        </div>);
+}
+
+
+------ CSS -------
+
+body {
+  font-family: sans-serif;
+}
+
+#outer-ring { 
+  height: 300px;
+  width: 300px;
+  border: 5px solid cornflowerblue; 
+  border-radius: 150px; 
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#seconds { 
+  height: 250px;
+  width: 250px; 
+  border-radius: 150px; 
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+ #seconds div {
+  width: 2px;
+  transform-origin: center;
+  background-color: cornflowerblue; 
+  height: 50%; 
+  position: absolute;
+  top: 0;
+}
+ 
+#minute { 
+  height: 200px;
+  width: 200px; 
+  border-radius: 150px; 
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+ #minute div {
+  width: 2px; 
+  background-color:cornflowerblue;  
+  height: 50%; 
+  position: absolute;
+  top: 0;
+}
+
+#hours { 
+  height: 150px;
+  width: 150px; 
+  border-radius: 150px; 
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}  
+
+
+ #hours div {
+  width: 2px;
+  background-color:cornflowerblue;  
+  height: 50%; 
+  position: absolute;
+  top: 0;
+}
