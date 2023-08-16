@@ -1,0 +1,116 @@
+// Online Javascript Editor for free
+// Write, Edit and Run your Javascript code using JS Online Compiler
+
+const Direction = {
+  EAST: 0,
+  WEST: 1,
+  NORTH: 2,
+  SOUTH: 3,
+}
+export default class Turtle {
+  constructor() {
+    this.x = 0;
+    this.y = 0;
+    this.dir = Direction.NORTH;
+  }
+
+  /**
+   * @param {number} distance Distance to move forward while facing the current direction.
+   * @return {Turtle}
+   */
+  forward(distance) {
+    switch(this.dir) {
+      case Direction.NORTH:
+        this.y += distance;
+        break
+      case Direction.EAST:
+        this.x += distance;
+        break;
+      case Direction.WEST:
+        this.x -= distance;
+        break;
+      case Direction.SOUTH:
+        this.y -= distance;
+        break;
+    }
+    return this;
+  }
+
+  /**
+   * @param {number} distance Distance to move backward while facing the current direction.
+   * @return {Turtle}
+   */
+  backward(distance) {
+    switch(this.dir) {
+      case Direction.NORTH:
+        this.y -= distance;
+        break
+      case Direction.EAST:
+        this.x -= distance;
+        break;
+      case Direction.WEST:
+        this.x += distance;
+        break;
+      case Direction.SOUTH:
+        this.y += distance;
+        break;
+    }
+    return this;
+  }
+
+  /**
+   * Turns the turtle left.
+   * @return {Turtle}
+   */
+  left() {
+    switch(this.dir) {
+      case Direction.NORTH:
+        this.dir = Direction.WEST;
+        break
+      case Direction.EAST:
+        this.dir = Direction.NORTH;
+        break;
+      case Direction.WEST:
+        this.dir = Direction.SOUTH;
+        break;
+      case Direction.SOUTH:
+        this.dir = Direction.EAST;
+        break;
+    }
+    return this;
+  }
+
+  /**
+   * Turns the turtle right.
+   * @return {Turtle}
+   */
+  right() {
+    switch(this.dir) {
+      case Direction.NORTH:
+        this.dir = Direction.EAST;
+        break
+      case Direction.EAST:
+        this.dir = Direction.SOUTH;
+        break;
+      case Direction.WEST:
+        this.dir = Direction.NORTH;
+        break;
+      case Direction.SOUTH:
+        this.dir = Direction.WEST;
+        break;
+    }
+    return this;
+  }
+
+  /**
+   * @return {[number, number]} Coordinates [x, y]
+   */
+  position() {
+    return [this.x, this.y];
+  }
+}
+
+// const turtle = new Turtle();
+// console.log(turtle.position());
+// turtle.forward(5);
+// console.log(turtle.position());
