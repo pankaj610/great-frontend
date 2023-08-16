@@ -1,0 +1,33 @@
+/**
+ * @template {Record<string, unknown>|Array<unknown>} T
+ * @param {T} object
+ * @return {T}
+ */
+const getKey = (key)=> {
+  if(!key) return key;
+  let keys = key.split("_");
+  return keys.map((key, i) => {
+    if(i == 0) {
+      return key.toLowerCase();
+    } else {
+      return key[0].toUpperCase() + key.slice(1);
+    }
+  }).join("");
+}
+
+export default function camelCaseKeys(object) {
+  if(typeof object != 'object') {
+    return object;
+  }
+  for(let key in object) {
+    let camelCaseKey = getKey(key);
+    object[camelCaseKey] = object[key];
+    if(key !== camelCaseKey) {
+      delete object[key];
+    }
+    if(typeof object[camelCaseKey] === 'object') {
+      object[camelCaseKey] = camelCaseKeys(object[camelCaseKey]);
+    }
+  }
+  return object;
+}
