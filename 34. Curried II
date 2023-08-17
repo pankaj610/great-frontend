@@ -1,0 +1,35 @@
+/**
+ * @param {Function} func
+ * @return {Function}
+ */
+export default function curry(func) {
+  let arg = [];
+  return function curried (...args) {
+    if(args.length > 0) {
+      arg.push(...args);
+    }
+    if(arg.length == func.length) {
+      let result = func.call(this, ...arg);
+      arg = [];
+      return result;
+    } else {
+      return curried.bind(this);
+    }
+  }
+}
+
+--------------- Optimized Code ----------------
+
+/**
+ * @param {Function} func
+ * @return {Function}
+ */
+export default function curry(func) {
+  return function curried (...args) {
+    if(args.length == func.length) {
+      return func.call(this, ...args);
+    } else {
+      return (...args2) => curried.apply(this, [...args, ...args2]);
+    }
+  }
+}
