@@ -31,3 +31,27 @@ export default function camelCaseKeys(object) {
   }
   return object;
 }
+
+
+
+ ------------------------------ Enhanced Code ------------------------------
+/**
+ * @template {Record<string, unknown>|Array<unknown>} T
+ * @param {T} object
+ * @return {T}
+ */
+const getCamelCaseKey = (key)=> {
+  return key.toLowerCase().replace(/([_])([a-z])/g, (match, p1, p2) => p2.toUpperCase());
+}
+
+export default function camelCaseKeys(object) {
+  if(Array.isArray(object)) {
+    return object.map(item => camelCaseKeys(item));
+  }
+  if(typeof object != 'object' || object === null) {
+    return object;
+  }
+  return Object.fromEntries(
+      Object.entries(object).map(([key, value])=> [getCamelCaseKey(key), camelCaseKeys(value)])
+  )
+}
