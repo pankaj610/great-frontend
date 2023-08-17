@@ -1,0 +1,23 @@
+
+
+/**
+ * @param {...(any|Object|Array<any|Object|Array>)} args
+ * @return {string}
+ */
+export default function classNames(...args) {
+  let output = "";
+  args.map(arg => {
+    if(Array.isArray(arg)) {
+      output += arg.map(el => classNames(el)).join(" ");
+    } else if(arg && typeof arg === 'object') {
+      output += Object.entries(arg).filter(([, val]) => val).map(([key, val]) => key).join(" ") + " "
+    } else if(arg && ['string', 'number'].includes(typeof arg)) {
+      output += (arg + " ");
+    }
+  })
+  return output.trim();
+}
+
+
+
+----------------------Optimised Way--------------------------
