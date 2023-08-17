@@ -21,3 +21,25 @@ export default function classNames(...args) {
 
 
 ----------------------Optimised Way--------------------------
+/**
+ * @param {...(any|Object|Array<any|Object|Array>)} args
+ * @return {string}
+ */
+export default function classNames(...args) {
+  let classes = [];
+  args.map(arg => {
+    if(!arg) return;
+    if(['string', 'number'].includes(typeof arg)) {
+      classes.push(arg);
+    } else if(Array.isArray(arg)) { 
+      classes.push(classNames(...arg));
+    } else if(typeof arg === 'object') {
+      for(const key in arg) { 
+        if(arg[key]) {
+          classes.push(key); 
+        }
+      }
+    } 
+  })
+  return classes.join(" ");
+}
