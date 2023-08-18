@@ -1,0 +1,35 @@
+/**
+ * @param {Function} func
+ * @param {number} wait
+ * @return {Function}
+ */
+export default function debounce(func, wait) {
+    let timer;
+    let argToInvoke;
+    let context;
+    const invoke = () => {
+        if(timer == null) return;
+        clearTimer();
+        func.apply(context, argToInvoke);
+    }
+
+    const clearTimer = ()=> {
+        clearTimeout(timer);
+        timer = null;
+    }
+    
+    function fn(...args) {
+        clearTimer();
+        argToInvoke = args;
+        context = this;
+        timer = setTimeout(function() {
+            invoke();
+        }, wait);
+    }
+
+    fn.cancel = clearTimer;
+    fn.flush = invoke;
+
+
+    return fn;  
+}
