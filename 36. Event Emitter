@@ -1,0 +1,108 @@
+// You are free to use alternative approaches of
+// instantiating the EventEmitter as long as the
+// default export is correct.
+
+export default class EventEmitter {
+  constructor() {
+    this.events = {}; 
+  }
+
+  /**
+   *
+   * @param {string} eventName
+   * @param {Function} listener
+   * @returns {EventEmitter}
+   */
+  on(eventName, listener) {
+    this.events[eventName] = [...this.events[eventName] ?? [], listener];
+    return this;
+  }
+
+  /**
+   * @param {string} eventName
+   * @param {Function} listener
+   * @returns {EventEmitter}
+   *
+   */
+  off(eventName, listener) {
+    this.events[eventName]?.splice(this.events[eventName].find(el => el === listener), 1);
+    return this;
+  }
+
+  /**
+   *
+   * @param {string} eventName
+   * @param  {...any} args
+   * @returns {boolean}
+   */
+  emit(eventName, ...args) {
+    if(this.events[eventName]?.length > 0) {
+      this.events[eventName]?.forEach(event => {
+        event.apply(this, args);
+      });
+      return true;
+    } else {
+      return false;
+    }
+  }
+}
+
+
+
+------------------------------- Optimised --------------------------------------------
+// You are free to use alternative approaches of
+// instantiating the EventEmitter as long as the
+// default export is correct.
+
+export default class EventEmitter {
+  constructor() {
+    this.events = Object.create(null); 
+  }
+
+  /**
+   *
+   * @param {string} eventName
+   * @param {Function} listener
+   * @returns {EventEmitter}
+   */
+  on(eventName, listener) {
+    if(!(eventName in this.events)) {
+      this.events[eventName] = [];
+    }
+    this.events[eventName].push(listener);
+    return this;
+  }
+
+  /**
+   * @param {string} eventName
+   * @param {Function} listener
+   * @returns {EventEmitter}
+   *
+   */
+  off(eventName, listener) {
+    if(eventName in this.events) {
+      const listeners = this.events[eventName];
+      this.events[eventName]?.splice(listeners.findIndex(el => el === listener), 1);
+      return this;
+    } else {
+      return this;
+    }
+  }
+
+  /**
+   *
+   * @param {string} eventName
+   * @param  {...any} args
+   * @returns {boolean}
+   */
+  emit(eventName, ...args) {
+    if(eventName in this.events && this.events[eventName].length > 0) {
+      this.events[eventName]?.forEach(event => {
+        event.apply(this, args);
+      });
+      return true;
+    } else {
+      return false;
+    }
+  }
+}
