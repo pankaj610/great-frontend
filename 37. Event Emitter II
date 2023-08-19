@@ -1,0 +1,42 @@
+// You are free to use alternative approaches of
+// instantiating the EventEmitter as long as the
+// default export is correct.
+export default class EventEmitter {
+  constructor() {
+    this.events = Object.create(null);
+  }
+
+  /**
+   * @param {string} eventName
+   * @param {Function} listener
+   * @returns {{off: Function}}
+   */
+  on(eventName, listener) {
+    if(eventName in this.events) {
+      this.events[eventName].push(listener);
+    } else {
+      this.events[eventName] = [listener];
+    } 
+    return {
+      off: () => {
+        if(eventName in this.events) {
+          this.events[eventName].splice(this.events[eventName].findIndex(e => e === listener), 1);
+        }
+      }
+    };
+  }
+
+
+  /**
+   * @param {string} eventName
+   * @param {...any} args
+   */
+  emit(eventName, ...args) {
+    if(eventName in this.events) {
+      this.events[eventName].forEach(event => {
+          event.apply(this, args);
+      })
+    }
+    return this;
+  }
+}
