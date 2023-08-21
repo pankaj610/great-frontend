@@ -46,4 +46,25 @@ PropertyKey -> Type for keys of object
 It can be string | number | symbol
 
 
+--------ThisType-------
+type Math = {
+  double(): void,
+  half(): void,
+}
+export const math: Math & ThisType<{value: number}> = {
+  double() {
+    this.value *= 2;
+  }
+  half() {
+    this.value /= 2;
+  }
+}
+
+const obj = {
+  value: 10,
+  ...math
+}
+obj.double();
+obj.half();
+
 
