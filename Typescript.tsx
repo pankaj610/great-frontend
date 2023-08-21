@@ -1,5 +1,20 @@
 
+------ Partial ------
 
+export type Partial<T> = {
+  [P in keyof T] ?: T[P]
+}
+
+type Point = {x: number, y: number};
+
+update(next: Partial<T>) {
+  setState({...currentState, next});
+}
+
+----- Required ----------
+export type Required<T> = {
+  [P in keyof T] -? : T[P];
+}
 
 
 Readonly
