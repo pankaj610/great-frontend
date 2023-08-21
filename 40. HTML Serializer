@@ -1,0 +1,26 @@
+/**
+ * @param {Node} node
+ * @return {string}
+ */
+
+export default function serializeNode(node) {
+
+  function traverse(r, depth = 0) {
+    const tabSpace = '\t'.repeat(depth);
+
+    if(!r) return [];
+    if(typeof r == 'string') return [`${tabSpace}${r}`];
+    
+    let arr = []; 
+    arr.push(`${tabSpace}<${r.tag}>`);
+    
+      arr.push(...r.children.flatMap( c => traverse(c, depth + 1)));
+     
+
+    arr.push(`${tabSpace}</${r.tag}>`);
+    return arr;
+  }
+  
+  const roots = traverse(node, 0);
+  return roots.join("\n");
+}
