@@ -132,6 +132,15 @@ type A = {name: string}
 type B = {age: 10}
 const Obj = A | B | (A & B)
 
+------ ENUM ------
+
+export const LoginMode = {
+  device: 'device',
+  email: 'email',
+  social: 'social',
+} as const;
+
+export type LoginMode = keyof typeof LoginMode; // device | email | social
 
 
 
