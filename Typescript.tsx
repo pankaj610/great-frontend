@@ -109,6 +109,29 @@ type Name = 'name';
 type GetName = Getter<Name>; // getName
 type SetName = Setter<Name>; // setName
 
+export type Setters<State> = {
+  [k in keyof State & string as `set${Capitalize(K)}`]: (value: State[K]) => void,
+}
+export type Getters<State> = {
+  [k in typeof State & string as `get${Capitalize(K)}`]: () => State[k];
+}
+export Store<State> = Setters<State> & Getters<State>;
+
+type PersonState = {
+  name: string;
+  age: number;
+}
+
+type PersonStore  = Store<PersonState>;
+declare const personStore: PersonStore;
+personStore.setName("ABC");
+personStore.setAge(20);
+
+--------- Intersaction ----------
+type A = {name: string}
+type B = {age: 10}
+const Obj = A | B | (A & B)
+
 
 
 
