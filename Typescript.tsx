@@ -92,5 +92,24 @@ state.moveBy(5, 5);
 
 -----------Awaited--------
 
+type WrappedInProm = Promise<Promise<Promise<string>>>;
+type AwaitedResult = Awaited<WrappedInProm>;  // string;
+
+------- String Manipulation -------
+Uppercase
+Lowercase
+Capitalize
+Uncapitalize
+
+type Getter<T extends string> = `get${Capitalize<T>}`;
+type Setter<T extends string> = `set${Capitalize<T>}`;
+
+type Name = 'name';
+
+type GetName = Getter<Name>; // getName
+type SetName = Setter<Name>; // setName
+
+
+
 
 
