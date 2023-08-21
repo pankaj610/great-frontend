@@ -32,3 +32,18 @@ const persons: Persons = {};
 persons['1'] =  {name: "Pankaj", age: 12};
 persons['2'] = {name: "abac" } // will give error
 
+undefined vs optional
+------------------------
+function logOptional(error?: Error, message: string) {}
+-> In this case if the error is not passed then it will go to a string,
+function logOptional(error: Error | undefined, message: string) {} 
+-> Can pass undefined as the first parameter
+
+const str: string = 'key';
+const num: number = 1337;
+
+PropertyKey -> Type for keys of object 
+It can be string | number | symbol
+
+
+
