@@ -1,0 +1,39 @@
+export default function jsonStringify(value) {
+  if(value === null) {
+    return "null";
+  }
+  if(['number', 'boolean'].includes(typeof value)) {
+    return `${value}`;
+  }
+  if(typeof value === 'string') {
+     return `\"${value}\"`;
+  }
+  if(Array.isArray(value)) {
+    return "[" + value.map(el => jsonStringify(el)).join(",") + "]";
+  }
+
+  if(typeof value === 'object') {
+    let keys = Object.keys(value);
+    return "{" + keys.map(key =>  `\"${key}\":${jsonStringify(value[key])}`).join(",") + "}"
+  }
+}
+
+
+---- Optimized------
+
+
+
+export default function jsonStringify(value) {
+  if(Array.isArray(value)) {
+    const arrayValue = value.map(el => jsonStringify(el)).join(",");
+    return `[${arrayValue}]`;
+  }
+  if(typeof value === 'object' && value != null) {
+    let keys = Object.keys(value);
+    return `{${keys.map(key =>  `"${key}":${jsonStringify(value[key])}`).join(",")}}`;
+  }
+  if(typeof value === 'string') {
+     return `"${value}"`;
+  }
+  return `${value}`;
+}
