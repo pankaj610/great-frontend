@@ -1,0 +1,44 @@
+/**
+ * @param {Array<string>} items
+ * @param {{sorted?: boolean, length?: number, unique?: boolean}} [options]
+ * @return {string}
+ */
+const OTHER_SEPERATOR = 'other';
+const AND_SEPERATOR = ' and ';
+const SEPERATOR = ", ";
+
+export default function listFormat(items, options) {
+  if(!items || items.length === 0 || !Array.isArray(items)) {
+    return '';
+  }
+  // No processing is needed if one item is present
+  if(items.length === 1) {
+    return items[0];
+  }
+
+  // filter falsey values
+  items = items.filter(el => !!el);
+ 
+  if(options) {
+    // sort values
+    if(options.sorted) {
+      items = items.sort((a, b) => a.localeCompare(b));
+    }
+
+    // Remove duplicates
+    if(options.unique) {
+      items = [...new Set(items)];
+    }
+    
+    // Length is specified and is valid
+    if(options.length && options.length < items.length && options.length > 0) {
+      const lastElements = items.slice(options.length, items.length);
+      items = [...items.slice(0, options.length), `${lastElements.length} ${OTHER_SEPERATOR}${lastElements.length > 1 ? 's': ''}`];
+    }
+  }
+
+
+  let lastElement = items.pop();
+
+  return `${items.join(SEPERATOR)}${AND_SEPERATOR}${lastElement}`;
+}
