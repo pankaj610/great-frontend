@@ -1,0 +1,46 @@
+export default function recursiveMergeSort(arr) {
+  if(arr.length <= 1) {
+    return arr;
+  }
+
+  return sort(arr, 0, arr.length-1); 
+}
+
+const sort = (arr, low, high) => {
+  if(low === high) {
+    return [arr[low]];
+  }
+  if(high - low === 1) {
+    if(arr[low] > arr[high]) {
+      return [arr[high], arr[low]];
+    } else {
+      return [arr[low], arr[high]];
+    }
+  }
+
+  let mid = Math.floor(low + (high - low)/2);
+  
+  let leftSorted = sort(arr, low, mid-1);
+  let rightSorted = sort(arr, mid, high);
+
+  let finalSorted = [];
+  let i = 0, j = 0;
+  while(i < leftSorted.length || j < rightSorted.length) {
+    if(i === leftSorted.length) {
+      finalSorted.push(rightSorted[j]);
+      j++;
+    } else if(j === rightSorted.length) {
+      finalSorted.push(leftSorted[i]);
+      i++;
+    } else if(leftSorted[i] <= rightSorted[j]) {
+      finalSorted.push(leftSorted[i]);
+      i++;
+    } else if(leftSorted[i] > rightSorted[j]) {
+      finalSorted.push(rightSorted[j]);
+      j++;
+    }
+  }
+  return finalSorted;
+}
+
+
