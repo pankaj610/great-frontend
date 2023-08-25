@@ -1,0 +1,71 @@
+-----------------------------_CSS-----------------------------------
+body {
+  font-family: sans-serif;
+}
+
+.progress-container {
+  width: 100%;
+  height: 20px;
+  margin-top: 10px;
+  background-color: lightgray;
+}
+
+.progress-bar {
+  height: 20px;
+  background-color: greenyellow;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition-duration: 2000ms;
+}
+
+.progress-bar-filled {
+  transform: scaleX(100%);
+}
+
+
+------------------------------_JS----------------------------------
+import './styles.css';
+
+import { useState, useEffect } from 'react';
+
+const ProgressBar = ({isStart, onComplete}) => {
+  const [start, setStart] = useState(false);
+
+  useEffect(()=> {
+    if(isStart) {
+      setStart(true);
+    }
+  }, [isStart]);
+
+  return <div class="progress-container">
+        <div
+          class={`progress-bar ${start && 'progress-bar-filled'}`}
+          onTransitionEnd={()=> {
+            onComplete();
+          }}
+        />
+
+  </div>
+}
+
+export default function App() {
+  const [progressBars, setProgressBars] = useState([]);
+  const [current, setCurrent] = useState(0);
+
+  const addProgressBar = () => {
+    setProgressBars([...progressBars, "Progress"]);
+  }
+
+  return (
+    <div>
+      <button onClick={addProgressBar}>Add</button>
+
+      {Array.from(progressBars).fill(null).map((_, i) => {
+        return <ProgressBar
+              isStart={current === i}
+              onComplete={() => setCurrent(c => c + 1)}
+          />
+      })}
+    </div>
+  );
+}
