@@ -21,3 +21,25 @@ export default function squashObject(obj, depth = 1, keyTillNow = "") {
 }
 
 --- Best----
+
+
+/**
+ * @param {Object} obj
+ * @return {Object}
+ */
+export default function squashObject(obj, path = [], output={}) {
+    for(const [key, value] of Object.entries(obj)) {
+        if(typeof value !== 'object' || value === null) {
+            output[path.concat(key).filter(Boolean).join('.')] = value;
+        } else {
+            squashObject(value, path.concat(key), output);
+        }
+    }
+  return output;
+}
+
+
+
+---- Alternative ----
+
+
